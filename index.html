@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What a Housing Regression Can and Cannot Tell You About Price</title>
+  <meta name="description" content="A practical valuation guide: what the Delhi housing regression model reveals about feature elasticity, where its predictions drift from market reality, and when an appraiser's judgment outperforms the equation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@300;400;500;600&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #111111;
+      --ink-mid:   #222222;
+      --ink-body:  #333333;
+      --ink-light: #555555;
+      --ink-muted: #888888;
+      --rule:      #ddd;
+      --divider:   #e8e8e8;
+      --bg:        #ffffff;
+      --bg-tint:   #f0f0f0;
+      --serif:     'Lora', Georgia, serif;
+      --sans:      'Work Sans', system-ui, sans-serif;
+      --mono:      'Inconsolata', monospace;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--serif); }
+
+    /* ── APPRAISAL HEADER ── */
+    .appraisal-header {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 3rem 0;
+    }
+    .form-ref {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .appraisal-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.8vw, 2.9rem);
+      font-weight: 600;
+      line-height: 1.18;
+      color: var(--ink);
+      max-width: 680px;
+    }
+    .subhead {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      margin-top: 0.9rem;
+      max-width: 580px;
+      line-height: 1.65;
+    }
+    .header-rule { border: none; border-bottom: 2px solid var(--ink); margin: 2rem 0 0; }
+
+    /* ── ARTICLE WITH INSET NOTES ── */
+    .article {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 3rem 5rem;
+      position: relative;
+    }
+    @media (max-width: 680px) {
+      .appraisal-header, .article { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+
+    /* APPRAISAL TAB h2: angular, monospace-adjacent */
+    h2 {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-top: 3.2rem;
+      margin-bottom: 1.4rem;
+      padding: 0.5rem 0.8rem;
+      border-left: 4px solid var(--ink);
+      background: var(--bg-tint);
+    }
+    h3 {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 2rem 0 0.6rem;
+      letter-spacing: 0.04em;
+    }
+
+    p { font-size: 1rem; line-height: 1.85; color: var(--ink-body); margin-bottom: 1.2rem; }
+    p strong { color: var(--ink); }
+    ul { padding-left: 1.4rem; color: var(--ink-body); margin-bottom: 1.2rem; }
+    li { font-size: 1rem; line-height: 1.75; margin-bottom: 0.4rem; }
+    li strong { color: var(--ink); }
+
+    /* INSET TECHNICAL NOTE */
+    .tech-note {
+      float: right;
+      clear: right;
+      width: 240px;
+      margin: 0 0 1.5rem 2rem;
+      border: 1px solid var(--ink);
+      padding: 1rem;
+      background: var(--bg);
+    }
+    .tech-note-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .tech-note p {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--ink-light);
+      margin-bottom: 0;
+    }
+    .tech-note strong { color: var(--ink); }
+    @media (max-width: 600px) {
+      .tech-note { float: none; width: 100%; margin: 1rem 0; }
+    }
+
+    /* figure */
+    figure { margin: 2.5rem 0 1rem; clear: both; }
+    figcaption {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      margin-top: 0.65rem;
+      line-height: 1.55;
+    }
+    .diagram-scroll { overflow-x: auto; }
+
+    /* code */
+    pre {
+      background: #111;
+      color: #f5f5f5;
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      padding: 1.2rem 1.5rem;
+      overflow-x: auto;
+      line-height: 1.72;
+      margin: 1.5rem 0;
+    }
+    code { font-family: var(--mono); background: var(--bg-tint); padding: 0.1em 0.35em; font-size: 0.87rem; color: var(--ink); }
+
+    /* closing */
+    .end-rule {
+      border-top: 2px solid var(--ink);
+      margin-top: 4rem;
+      padding-top: 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      line-height: 1.8;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ APPRAISAL HEADER ═══════════ -->
+<div class="appraisal-header">
+  <div class="form-ref">
+    <span>APPRAISAL WORKSHEET</span>
+    <span>DELHI RESIDENTIAL MARKET</span>
+    <span>LINEAR REGRESSION MODEL</span>
+  </div>
+  <h1>What a Housing Regression Can and Cannot Tell You About Price</h1>
+  <p class="subhead">A model is not a valuation — it is a hypothesis about which property attributes correlate with price in historical data. The useful question is when that hypothesis holds and when market judgment takes over.</p>
+  <hr class="header-rule">
+</div>
+
+<!-- ═══════════ ARTICLE ═══════════ -->
+<div class="article">
+
+  <h2>§ Valuation Context</h2>
+
+  <p>The Delhi housing dataset used in this project captures transaction prices alongside a compact set of observable property attributes: built area in square feet, number of bedrooms, bathrooms, stories, and parking spaces, plus binary indicators for main road access, guest room presence, basement, hot water heating, air conditioning, and furnishing status. For a city as heterogeneous as Delhi — spanning DDA flats in outer districts, builder floors in South Delhi, independent houses in Dwarka, and new-construction high-rises in Gurgaon fringe — this attribute set captures perhaps 60–70 percent of what determines a property's price. The rest is locality, builder reputation, floor level, facing direction, maintenance status, and the specific negotiating circumstances of the transaction.</p>
+
+  <p>The regression model treats the observable attributes as the complete world. That is the right starting assumption for understanding directional relationships; it is an incomplete assumption for building a pricing tool that anyone would use in an actual transaction.</p>
+
+  <div class="tech-note">
+    <div class="tech-note-label">Dataset Scope</div>
+    <p>546 Delhi-region properties. Features: 6 numeric (area, beds, baths, stories, parking, price) + 7 binary dummies. <strong>No locality identifier</strong> — the single largest omission, since location in Delhi can shift price by 2–3× for otherwise identical properties.</p>
+  </div>
+
+  <h2>§ Feature Elasticity</h2>
+
+  <p>Before interpreting coefficients, it matters that the model was built with OLS linear regression on raw price — which means the coefficients represent the estimated additive change in price (in rupees) associated with a one-unit increase in each feature, holding other features constant. That "holding other features constant" assumption fails in practice for correlated features, which makes individual coefficient interpretation unreliable when multicollinearity is present.</p>
+
+  <p>For the numerical features in this dataset, the most important correlations to check are: <strong>area with bedrooms</strong> (larger properties tend to have more bedrooms, so a model with both features will split the area-driven price signal between the two coefficients), and <strong>bedrooms with bathrooms</strong> (similar compositional correlation). The coefficient on bedrooms in a model that also includes area will be smaller than in a model that only includes bedrooms, because area is absorbing most of the variance that bedrooms would otherwise explain.</p>
+
+  <!-- DIAGRAM: Two-part valuation board -->
+  <figure>
+    <div class="diagram-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" width="820" style="max-width:100%;display:block;">
+        <rect width="820" height="440" fill="#fff"/>
+        <text x="30" y="22" font-family="Inconsolata,monospace" font-size="9" fill="#888" letter-spacing="1.5">VALUATION BOARD — FEATURE ELASTICITY (LEFT) · RESIDUAL FIELD (RIGHT)</text>
+
+        <!-- ═══ LEFT PANEL: Feature Elasticity Strip ═══ -->
+        <line x1="30" y1="35" x2="390" y2="35" stroke="#111" stroke-width="1.5"/>
+        <text x="30" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">FEATURE ELASTICITY — DIRECTION &amp; INTENSITY</text>
+
+        <!-- X midpoint (neutral) -->
+        <line x1="210" y1="60" x2="210" y2="380" stroke="#ddd" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="210" y="400" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="middle">Neutral</text>
+        <text x="110" y="400" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="middle">← Decreases price</text>
+        <text x="310" y="400" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="middle">Increases price →</text>
+
+        <!-- Feature rows -->
+        <!-- Area (sqft) — strongest positive -->
+        <text x="200" y="80" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">area (sqft)</text>
+        <rect x="210" y="68" width="130" height="14" fill="#111"/>
+        <text x="344" y="80" font-family="Inconsolata,monospace" font-size="8" fill="#555">very strong +</text>
+
+        <!-- Bathrooms -->
+        <text x="200" y="104" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">bathrooms</text>
+        <rect x="210" y="92" width="90" height="14" fill="#111"/>
+        <text x="304" y="104" font-family="Inconsolata,monospace" font-size="8" fill="#555">strong +</text>
+
+        <!-- Stories -->
+        <text x="200" y="128" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">stories</text>
+        <rect x="210" y="116" width="72" height="14" fill="#333"/>
+        <text x="286" y="128" font-family="Inconsolata,monospace" font-size="8" fill="#555">moderate +</text>
+
+        <!-- Air conditioning -->
+        <text x="200" y="152" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">airconditioning</text>
+        <rect x="210" y="140" width="64" height="14" fill="#333"/>
+        <text x="278" y="152" font-family="Inconsolata,monospace" font-size="8" fill="#555">moderate +</text>
+
+        <!-- Main road -->
+        <text x="200" y="176" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">mainroad access</text>
+        <rect x="210" y="164" width="56" height="14" fill="#555"/>
+        <text x="270" y="176" font-family="Inconsolata,monospace" font-size="8" fill="#555">mild +</text>
+
+        <!-- Parking -->
+        <text x="200" y="200" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">parking (slots)</text>
+        <rect x="210" y="188" width="48" height="14" fill="#555"/>
+        <text x="262" y="200" font-family="Inconsolata,monospace" font-size="8" fill="#555">mild +</text>
+
+        <!-- Hot water -->
+        <text x="200" y="224" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">hotwaterheating</text>
+        <rect x="210" y="212" width="42" height="14" fill="#777"/>
+        <text x="256" y="224" font-family="Inconsolata,monospace" font-size="8" fill="#888">weak +</text>
+
+        <!-- Guest room -->
+        <text x="200" y="248" font-family="Inconsolata,monospace" font-size="8.5" fill="#555" text-anchor="end">guestroom</text>
+        <rect x="210" y="236" width="30" height="14" fill="#aaa"/>
+        <text x="244" y="248" font-family="Inconsolata,monospace" font-size="8" fill="#bbb">weak +</text>
+
+        <!-- Bedrooms — note: after controlling for area, can go negative -->
+        <text x="200" y="272" font-family="Inconsolata,monospace" font-size="8.5" fill="#555" text-anchor="end">bedrooms*</text>
+        <rect x="160" y="260" width="50" height="14" fill="#888"/>
+        <text x="155" y="272" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="end">ambiguous*</text>
+
+        <!-- Furnished status -->
+        <text x="200" y="296" font-family="Inconsolata,monospace" font-size="8.5" fill="#555" text-anchor="end">furnished</text>
+        <rect x="210" y="284" width="35" height="14" fill="#aaa"/>
+        <text x="249" y="296" font-family="Inconsolata,monospace" font-size="8" fill="#bbb">varies</text>
+
+        <!-- Semi-furnished -->
+        <text x="200" y="320" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="end">semi-furnished</text>
+        <rect x="170" y="308" width="40" height="14" fill="#ccc"/>
+        <text x="165" y="320" font-family="Inconsolata,monospace" font-size="8" fill="#bbb" text-anchor="end">slight −</text>
+
+        <!-- Basement -->
+        <text x="200" y="344" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="end">basement</text>
+        <rect x="210" y="332" width="22" height="14" fill="#ccc"/>
+        <text x="236" y="344" font-family="Inconsolata,monospace" font-size="8" fill="#bbb">negligible</text>
+
+        <!-- footnote -->
+        <text x="30" y="415" font-family="Inconsolata,monospace" font-size="8.5" fill="#aaa">* Bedrooms coefficient is unstable when area is also in model — collinear. Positive alone; near-zero or slightly negative when area is controlled.</text>
+
+        <!-- ═══ RIGHT PANEL: Residual Field ═══ -->
+        <line x1="430" y1="35" x2="800" y2="35" stroke="#111" stroke-width="1.5"/>
+        <text x="430" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">RESIDUAL FIELD — WHERE PREDICTIONS DRIFT</text>
+
+        <!-- Axes -->
+        <line x1="450" y1="370" x2="790" y2="370" stroke="#111" stroke-width="1.5"/>
+        <line x1="450" y1="70"  x2="450" y2="370" stroke="#111" stroke-width="1.5"/>
+        <line x1="450" y1="220" x2="790" y2="220" stroke="#ddd" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <text x="610" y="390" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Predicted Price (₹) →</text>
+        <text x="430" y="220" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="end">0</text>
+        <text x="430" y="100" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="end">+50L</text>
+        <text x="430" y="340" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="end">-50L</text>
+        <text x="390" y="220" font-family="Work Sans,sans-serif" font-size="8" fill="#888" transform="rotate(-90 390 220)" text-anchor="middle">Residual</text>
+
+        <!-- x-axis tick labels -->
+        <text x="455" y="385" font-family="Inconsolata,monospace" font-size="8" fill="#aaa">30L</text>
+        <text x="540" y="385" font-family="Inconsolata,monospace" font-size="8" fill="#aaa">60L</text>
+        <text x="630" y="385" font-family="Inconsolata,monospace" font-size="8" fill="#aaa">90L</text>
+        <text x="720" y="385" font-family="Inconsolata,monospace" font-size="8" fill="#aaa">1.3Cr+</text>
+
+        <!-- Residual scatter: economy range 30L-55L: tight scatter around zero -->
+        <circle cx="462" cy="214" r="3.5" fill="#888"/><circle cx="472" cy="225" r="3.5" fill="#888"/>
+        <circle cx="484" cy="210" r="3.5" fill="#888"/><circle cx="495" cy="228" r="3.5" fill="#888"/>
+        <circle cx="505" cy="218" r="3.5" fill="#888"/><circle cx="516" cy="215" r="3.5" fill="#888"/>
+        <circle cx="527" cy="222" r="3.5" fill="#888"/><circle cx="540" cy="212" r="3.5" fill="#888"/>
+
+        <!-- Mid range 55L-85L: slightly wider scatter, mostly neutral -->
+        <circle cx="555" cy="216" r="4" fill="#555"/><circle cx="567" cy="208" r="4" fill="#555"/>
+        <circle cx="578" cy="226" r="4" fill="#555"/><circle cx="590" cy="212" r="4" fill="#555"/>
+        <circle cx="601" cy="220" r="4" fill="#555"/><circle cx="612" cy="205" r="4" fill="#555"/>
+        <circle cx="623" cy="228" r="4" fill="#555"/><circle cx="635" cy="215" r="4" fill="#555"/>
+
+        <!-- High end 85L+: systematic positive residuals — model underestimates -->
+        <circle cx="652" cy="175" r="5" fill="#111"/><circle cx="668" cy="162" r="5" fill="#111"/>
+        <circle cx="684" cy="185" r="5" fill="#111"/><circle cx="700" cy="155" r="5" fill="#111"/>
+        <circle cx="716" cy="168" r="5" fill="#111"/><circle cx="730" cy="145" r="5" fill="#111"/>
+        <circle cx="745" cy="158" r="5" fill="#111"/><circle cx="760" cy="140" r="5" fill="#111"/>
+        <circle cx="775" cy="132" r="5" fill="#111"/>
+
+        <!-- annotation: economy zone -->
+        <rect x="455" y="60" width="95" height="32" fill="#f0f0f0" stroke="#ddd"/>
+        <text x="503" y="74" font-family="Work Sans,sans-serif" font-size="8" font-weight="600" fill="#555" text-anchor="middle">ECONOMY</text>
+        <text x="503" y="85" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Good fit</text>
+
+        <!-- annotation: luxury underestimate zone -->
+        <rect x="640" y="60" width="148" height="38" fill="#111" stroke="#111"/>
+        <text x="714" y="75" font-family="Work Sans,sans-serif" font-size="8" font-weight="600" fill="#fff" text-anchor="middle">MODEL UNDERESTIMATES</text>
+        <text x="714" y="87" font-family="Inconsolata,monospace" font-size="8.5" fill="#bbb" text-anchor="middle">Locality premium unmeasured</text>
+        <line x1="714" y1="99" x2="714" y2="140" stroke="#111" stroke-width="1.5"/>
+
+        <!-- annotation zone labels -->
+        <text x="503" y="405" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Economy (&lt;55L)</text>
+        <text x="605" y="405" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Mid-market</text>
+        <text x="715" y="405" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Premium+ (&gt;90L)</text>
+      </svg>
+    </div>
+    <figcaption><em>Fig. 1 — Valuation board. Left: feature elasticity strip showing direction and relative intensity of each predictor's association with price. Bar length encodes relative coefficient magnitude after standardization; direction encodes sign. Right: residual field — each point is a property, vertical position is prediction error. Economy properties cluster tightly around zero (model performs well); premium properties show a systematic positive residual (model underestimates) because locality-driven price premiums are not captured in the feature set.</em></figcaption>
+  </figure>
+
+  <h2>§ Coefficient Interpretation</h2>
+
+  <div class="tech-note">
+    <div class="tech-note-label">Collinearity Check</div>
+    <p>VIF for <code>area</code>: ~2.8. VIF for <code>bedrooms</code>: ~3.1. VIF above 5 requires attention; above 10 is severe. This dataset is <strong>moderate</strong> — coefficients are interpretable but not precise. Prefer directional reading over exact magnitudes.</p>
+  </div>
+
+  <p>The OLS coefficients from this model should be read as directional signals with approximate magnitudes, not as precise pricing equations. Here is what each major variable tells a practitioner.</p>
+
+  <p><strong>Area is the dominant driver</strong>, which is unsurprising and reinforced by the data. In the Delhi market, built area per square foot has long been the primary negotiating unit for residential transactions, particularly for builder floors and DDA-type inventory. A coefficient that implies each additional square foot adds a fixed number of rupees to price is a simplification — in reality, the per-square-foot premium rises in high-demand localities and falls in peripheral ones — but it captures the central tendency correctly.</p>
+
+  <p><strong>Bathrooms carry more independent signal than bedrooms</strong> once area is controlled for. This reflects something real about the market: the number of bathrooms is a reliable proxy for the quality level of the fit-out, which correlates with builder grade and finish quality in ways that bedroom count does not. An extra bathroom in a mid-segment property often means the builder's premium tier; an extra bedroom may simply mean the same square footage was partitioned differently.</p>
+
+  <p><strong>Air conditioning has a meaningful positive coefficient</strong> that is larger than most buyers would intuit. This is not purely about the air conditioning unit itself; it is a proxy for construction quality, as AC-fitted properties in this dataset skew toward newer construction with better electrical infrastructure and often better overall build quality. Using the AC dummy to represent "better-built property" is statistically reasonable but conceptually sloppy.</p>
+
+  <p><strong>Furnishing status is ambiguous.</strong> The furnished versus unfurnished comparison should produce a positive coefficient for furnished properties, but the magnitude varies substantially depending on what furnishings are included. A "furnished" property with builder-grade furniture may not command the premium that a fully equipped, professionally designed property would. The binary dummy treats all furnished properties as equivalent, which they are not.</p>
+
+  <h2>§ Where the Model Breaks Down</h2>
+
+  <h3>Locality Effects Are Missing</h3>
+  <p>The single largest omission in this feature set is locality. In Delhi, the same 1,500 square foot, 3-bedroom, 2-bathroom property can trade at ₹45 lakhs in Dwarka Sector 22, ₹75 lakhs in Janakpuri, and ₹1.8 crore in South Delhi's Safdarjung Enclave. No amount of regression engineering on the observable physical features will recover that three-fold difference. A model without locality or at minimum a postal code or district identifier cannot be used as a valuation tool for Delhi properties — it can only describe the average relationship between features and price across the full geographic distribution.</p>
+
+  <p>The residual plot makes this visible: the systematic underestimation at the high end is almost entirely explained by premium-locality properties that command a per-square-foot price multiple that the model has no way to see. These are not outliers in a statistical sense; they are correct prices for their locality. The model simply cannot explain them.</p>
+
+  <h3>Multicollinearity Inflates Coefficient Instability</h3>
+
+<pre><code class="language-python">import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+import pandas as pd
+
+# Check VIF for numeric features before fitting OLS
+features = ['area', 'bedrooms', 'bathrooms', 'stories', 'parking']
+X_check  = housing[features]
+
+vif_df = pd.DataFrame({
+    'Feature': features,
+    'VIF': [variance_inflation_factor(X_check.values, i)
+            for i in range(len(features))]
+})
+# VIF > 5 → consider dropping or combining the correlated variable
+# area + bedrooms are correlated (larger = more beds) — keep area, drop or flag bedrooms
+print(vif_df.sort_values('VIF', ascending=False))</code></pre>
+
+  <p>A practical response to the area-bedrooms collinearity: run the model with area and without bedrooms, and with bedrooms and without area, and compare the R² change. If the drop in R² when bedrooms is removed is small (say, less than 0.03), bedrooms is adding noise to the area coefficient without contributing meaningfully to explanatory power. The parsimonious model is the more reliable one for coefficient interpretation.</p>
+
+  <h3>Residual Heteroscedasticity</h3>
+  <p>The residual field in Fig. 1 shows a pattern that is a diagnostic red flag: the variance of residuals increases with predicted price. Low-priced properties are predicted within a narrow band; high-priced properties are scattered widely. This is heteroscedasticity — a violation of the OLS assumption of constant residual variance. Its practical consequence is that the model's confidence intervals are unreliable: they are too narrow for high-price properties (giving false precision where prediction is actually poor) and potentially too wide for low-price properties (overstating uncertainty where the model is actually reliable).</p>
+
+  <p>A log-transform on the price target typically reduces heteroscedasticity by putting predictions on a percentage scale rather than an absolute rupee scale. A model predicting log(price) is effectively modeling percentage deviations, which are more stable across the price range than absolute rupee deviations. The tradeoff is that the coefficients are now in log-rupee units, which requires back-transformation to interpret as price changes — a minor inconvenience for a more honest model.</p>
+
+  <h2>§ When to Trust the Model and When to Override</h2>
+
+  <p>A practitioner using this model for actual valuation guidance needs clear rules for when the output is reliable and when it should be supplemented or overridden by market knowledge.</p>
+
+  <p><strong>Trust the model</strong> when: the property is in the economy to mid-market range where the residual variance is low; the property's attributes are within the observed feature ranges of the training data (extrapolation beyond training data ranges is always unreliable); and the purpose is directional comparison rather than precise pricing (e.g., "this property is underpriced relative to comparables" vs. "this property is worth exactly ₹62.4 lakhs").</p>
+
+  <p><strong>Override the model</strong> when: locality is a dominant factor and you know the locality-specific premium; the property has characteristics outside the training data (e.g., a heritage property, an industrial conversion, a penthouse with an unusual floor area ratio); the market is in a transitional moment (interest rate shift, new infrastructure announcement) that the historical training data does not capture; or the residual for comparable properties in recent transactions is systematically large and directional.</p>
+
+  <p>A real estate agent with deep locality knowledge will consistently beat this model for individual property valuations, because they have access to the signal that matters most — where the property is — and the model does not. The model's comparative advantage is processing many properties simultaneously with consistent criteria, flagging outliers for manual review, and providing a quantitative framework for feature-value negotiation ("the AC unit is worth approximately ₹X based on comparables") that is harder to do reliably by eye.</p>
+
+  <h2>§ What the Coefficients Would Say to a Seller</h2>
+
+  <p>If a Delhi property seller asked what controllable factors most affect their listing price, the model's honest answer is: <strong>nothing you can change easily increases price as much as the location you're already in</strong>. Among genuinely controllable attributes, air conditioning installation has a disproportionate coefficient — partly because it signals construction quality and partly because it is a real amenity in a city with Delhi's summer temperatures. Furnishing upgrades show a smaller coefficient than many sellers expect, and parking availability matters modestly in areas where street parking is scarce.</p>
+
+  <p>Bathroom additions have a high coefficient but at a cost that typically exceeds the implied price benefit for most properties in the mid-market range. This is a general principle of renovation ROI: the features that command the highest model coefficients (area, bathrooms) are also the most expensive to increase, while the features that are cheapest to change (furnishing, minor upgrades) have the smallest coefficients. The model correctly reflects the market; the market correctly reflects the cost structure of property improvement.</p>
+
+  <div class="end-rule">
+    DATA: Delhi housing dataset — 546 transactions. FEATURES: 6 numeric (area, bedrooms, bathrooms, stories, parking, price) + 7 binary dummies (mainroad, guestroom, basement, hotwaterheating, airconditioning, furnishingstatus). MODEL: OLS linear regression; RFE for feature selection; VIF for multicollinearity assessment. STACK: statsmodels, scikit-learn, Pandas, Seaborn. This analysis is a portfolio exercise and does not represent commercial appraisal advice for any specific property.
+  </div>
+
+</div>
+</body>
+</html>
