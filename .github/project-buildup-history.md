@@ -8,3 +8,7 @@
 
 - Task summary: Started this one by sitting down and trying to understand what Housing Price Prediction should actually become. I did not rush into code yet. The main thing here was to define the prediction or analysis goal for Housing Price Prediction so the project had a decent base. At this stage nothing was fully locked, so I kept a rough list of things that looked useful and ignored the rest for now. I kept bouncing between the notebook, small observations, and quick plots until the direction felt usable.
 - Deliverable: By the end of the day I had project objective written down in a rough way, which was enough to stop guessing and move into the next step. I also left myself a few rough reminders for the next day so I would not have to rediscover the same context again.
+## 2021-03-17 - Day 1: Problem framing start
+
+- Task summary: Spent another hour on this: added a sanity check assertion that would catch obvious data shape issues early.
+- Deliverable: Solid now, moving on.
