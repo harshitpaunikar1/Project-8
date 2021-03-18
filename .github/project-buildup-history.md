@@ -12,3 +12,7 @@
 
 - Task summary: Spent another hour on this: added a sanity check assertion that would catch obvious data shape issues early.
 - Deliverable: Solid now, moving on.
+## 2021-03-18 - Day 2: Dataset setup pass
+
+- Task summary: Used the next day to keep the momentum going for Housing Price Prediction. I was still piecing things together, so I focused on trying to collect the raw dataset and set up a clean notebook to work in and wrote down the stuff that looked important. This was still the messy setup part where I was opening files, checking examples, and trying not to overthink it too early. Most of the progress here came from patient cleanup more than anything flashy.
+- Deliverable: I wrapped up the day with starter notebook mostly in place. It was not perfect, but it was good enough to keep the project moving. There were still a couple of loose parts, but nothing serious enough to block the next step.
