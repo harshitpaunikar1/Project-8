@@ -24,3 +24,7 @@
 
 - Task summary: Got stuck mid-afternoon and had to regroup — the output formatting looked messy when printed, so added a cleaner display block.
 - Deliverable: One of those satisfying small wins.
+## 2021-03-20 - Day 2: Dataset setup pass
+
+- Task summary: Checked in on the project over the weekend. Ran a few cells, noticed the output was slightly off. Fixed a small rounding issue and re-saved.
+- Deliverable: Good enough to not be embarrassing.
