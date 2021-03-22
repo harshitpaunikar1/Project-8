@@ -28,3 +28,7 @@
 
 - Task summary: Checked in on the project over the weekend. Ran a few cells, noticed the output was slightly off. Fixed a small rounding issue and re-saved.
 - Deliverable: Good enough to not be embarrassing.
+## 2021-03-22 - Day 4: EDA
+
+- Task summary: By this point I had the rough direction, so the work became more practical. I spent most of the day trying to plot the major signals and note which variables matter most and make the whole thing feel less half baked. The middle part always takes longer than it should, mostly becuase one fix usually reveals two more things to clean up. I kept bouncing between the notebook, small observations, and quick plots until the direction felt usable.
+- Deliverable: I wrapped up the day with eDA summary mostly in place. It was not perfect, but it was good enough to keep the project moving. I also left myself a few rough reminders for the next day so I would not have to rediscover the same context again.
