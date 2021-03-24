@@ -48,3 +48,7 @@
 
 - Task summary: One more pass: cleaned up the cell ordering in the notebook so it reads top to bottom without jumping around.
 - Deliverable: Nothing dramatic — just keeping things tidy.
+## 2021-03-24 - Day 6: Baseline model
+
+- Task summary: Noticed something off from this morning — the test I wrote this morning had a hardcoded path, swapped it for a relative one.
+- Deliverable: Cleaner than this morning's version.
