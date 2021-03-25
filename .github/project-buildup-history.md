@@ -60,3 +60,7 @@
 
 - Task summary: Came back after lunch and realized pushed a config tweak after noticing the wrong default param was being used.
 - Deliverable: Small fix, clean result.
+## 2021-03-25 - Day 7: Model improvement
+
+- Task summary: One more pass: found a duplicate function that slipped in during copy-paste. Removed it.
+- Deliverable: Nothing dramatic — just keeping things tidy.
