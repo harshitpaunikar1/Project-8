@@ -72,3 +72,7 @@
 
 - Task summary: One more pass: ran the whole thing end to end again after a fresh look. Caught a stale import that broke the flow.
 - Deliverable: Pushed before end of day.
+## 2021-03-26 - Day 8: Evaluation
+
+- Task summary: Late-night fix: added a sanity check assertion that would catch obvious data shape issues early.
+- Deliverable: Nothing dramatic — just keeping things tidy.
