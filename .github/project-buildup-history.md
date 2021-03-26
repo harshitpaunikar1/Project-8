@@ -68,3 +68,7 @@
 
 - Task summary: Closer to the end, I was mostly tightening things up instead of inventing new scope. The job for the day was to inspect metrics and error cases so the result is believable so the final result looked a bit more complete. Toward the end I mostly kept trimming weird bits, fixing wording, and tying the loose parts together. Most of the progress here came from patient cleanup more than anything flashy.
 - Deliverable: Ended the day with evaluation notes in hand, plus a few side notes on what still needed fixing later. There were still a couple of loose parts, but nothing serious enough to block the next step.
+## 2021-03-26 - Day 8: Evaluation
+
+- Task summary: One more pass: ran the whole thing end to end again after a fresh look. Caught a stale import that broke the flow.
+- Deliverable: Pushed before end of day.
