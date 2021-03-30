@@ -88,3 +88,7 @@
 
 - Task summary: Came back after lunch and realized the output formatting looked messy when printed, so added a cleaner display block.
 - Deliverable: Good enough to not be embarrassing.
+## 2021-03-30 - Day 10: Documentation wrap
+
+- Task summary: Quick follow-up: the test I wrote this morning had a hardcoded path, swapped it for a relative one.
+- Deliverable: Should've caught it earlier but better now than later.
