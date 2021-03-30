@@ -92,3 +92,7 @@
 
 - Task summary: Quick follow-up: the test I wrote this morning had a hardcoded path, swapped it for a relative one.
 - Deliverable: Should've caught it earlier but better now than later.
+## 2021-03-30 - Day 10: Documentation wrap
+
+- Task summary: Late-night fix: cleaned up the cell ordering in the notebook so it reads top to bottom without jumping around.
+- Deliverable: Minor but worth doing.
