@@ -12,3 +12,7 @@
 
 - Task summary: Quick late-day fix: the validation curve plot was throwing a warning about feature names not matching the training schema — tracked it down to a column that had been renamed during cleaning but the plot code still used the old name.
 - Deliverable: Column name mismatch resolved. Plot renders cleanly now.
+## 2021-08-23 - Day 6: Regularization exploration
+
+- Task summary: Tried adding L2 regularization to the regression model to see if it helped with the variance issue identified last session. Did a small alpha sweep and found the optimal range. Also looked at whether log-transforming the target variable would help since the price distribution had a noticeable right skew. It did — both the residual plot and the CV scores improved. Updated the notebook to document the transformation and its inverse for interpretability.
+- Deliverable: Log target transform added, regularization tuned. CV scores improved.
