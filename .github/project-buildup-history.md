@@ -20,3 +20,7 @@
 
 - Task summary: Tried stacking a gradient boosting model on top of the linear baseline for Housing Price Prediction. The idea was to let the tree-based model pick up the non-linear patterns the linear model was missing. The improvement was real but modest — about 4 percent lower RMSE on validation. The bigger benefit was that the stacked model was less sensitive to the outlier properties that had been causing spikes in the single-model predictions. Spent the afternoon writing up the comparison and making sure both models were saved properly.
 - Deliverable: Stacking adds modest lift. More important: reduces sensitivity to outliers.
+## 2021-10-18 - Day 7: Ensemble attempt
+
+- Task summary: Quick cleanup: the model serialization was writing to an absolute path that only worked on my machine. Switched to a relative path inside the project directory.
+- Deliverable: Path issue fixed. Models now save to relative project directory.
