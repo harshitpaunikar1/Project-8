@@ -16,3 +16,7 @@
 
 - Task summary: Tried adding L2 regularization to the regression model to see if it helped with the variance issue identified last session. Did a small alpha sweep and found the optimal range. Also looked at whether log-transforming the target variable would help since the price distribution had a noticeable right skew. It did — both the residual plot and the CV scores improved. Updated the notebook to document the transformation and its inverse for interpretability.
 - Deliverable: Log target transform added, regularization tuned. CV scores improved.
+## 2021-10-18 - Day 7: Ensemble attempt
+
+- Task summary: Tried stacking a gradient boosting model on top of the linear baseline for Housing Price Prediction. The idea was to let the tree-based model pick up the non-linear patterns the linear model was missing. The improvement was real but modest — about 4 percent lower RMSE on validation. The bigger benefit was that the stacked model was less sensitive to the outlier properties that had been causing spikes in the single-model predictions. Spent the afternoon writing up the comparison and making sure both models were saved properly.
+- Deliverable: Stacking adds modest lift. More important: reduces sensitivity to outliers.
