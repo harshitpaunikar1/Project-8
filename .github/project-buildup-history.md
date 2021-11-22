@@ -28,3 +28,7 @@
 
 - Task summary: Did a thorough error analysis pass on the housing price model today. Plotted predicted vs actual, residuals vs predicted, and a geographic scatter of residual magnitude. The geographic plot was revealing — high errors clustered in one zip code area. Looked into that neighborhood and found it had some unusual zoning that the model had no feature for. Added a binary flag for that area as a quick fix and retested.
 - Deliverable: Geographic error clustering found and patched with zone indicator feature.
+## 2021-11-22 - Day 8: Error analysis
+
+- Task summary: Follow-up: the new zone flag feature broke the column ordering in the preprocessing pipeline. Fixed the column list and reran end to end.
+- Deliverable: Column order fixed after adding zone flag. Pipeline clean.
