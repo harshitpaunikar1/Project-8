@@ -32,3 +32,7 @@
 
 - Task summary: Follow-up: the new zone flag feature broke the column ordering in the preprocessing pipeline. Fixed the column list and reran end to end.
 - Deliverable: Column order fixed after adding zone flag. Pipeline clean.
+## 2021-11-22 - Day 8: Error analysis
+
+- Task summary: Added a relative error distribution plot — useful for understanding whether the model errs proportionally on expensive vs cheap homes. It does skew slightly toward underestimating expensive properties.
+- Deliverable: Relative error plot added. Expensive property underestimation pattern documented.
