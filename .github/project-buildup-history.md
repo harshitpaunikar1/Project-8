@@ -24,3 +24,7 @@
 
 - Task summary: Quick cleanup: the model serialization was writing to an absolute path that only worked on my machine. Switched to a relative path inside the project directory.
 - Deliverable: Path issue fixed. Models now save to relative project directory.
+## 2021-11-22 - Day 8: Error analysis
+
+- Task summary: Did a thorough error analysis pass on the housing price model today. Plotted predicted vs actual, residuals vs predicted, and a geographic scatter of residual magnitude. The geographic plot was revealing — high errors clustered in one zip code area. Looked into that neighborhood and found it had some unusual zoning that the model had no feature for. Added a binary flag for that area as a quick fix and retested.
+- Deliverable: Geographic error clustering found and patched with zone indicator feature.
