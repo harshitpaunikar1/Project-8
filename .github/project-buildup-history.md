@@ -36,3 +36,7 @@
 
 - Task summary: Added a relative error distribution plot — useful for understanding whether the model errs proportionally on expensive vs cheap homes. It does skew slightly toward underestimating expensive properties.
 - Deliverable: Relative error plot added. Expensive property underestimation pattern documented.
+## 2021-12-20 - Day 9: Deliverable packaging
+
+- Task summary: Spent today packaging up the Housing Price Prediction project properly. That meant writing a final model card documenting what data it was trained on, what assumptions it makes, where it works well and where it breaks down. Also generated a summary visualization showing the ten most important features with their effect directions. Made sure the reproducibility instructions in the README were accurate by actually following them on a clean copy of the directory.
+- Deliverable: Model card written. Reproducibility verified from fresh checkout.
