@@ -44,3 +44,7 @@
 
 - Task summary: Realized the sample prediction script in the README used a hardcoded example that had been deleted from the dataset during cleaning. Fixed the example to use a real row from the cleaned dataset.
 - Deliverable: README example updated to use a real row from cleaned data.
+## 2021-12-20 - Day 9: Deliverable packaging
+
+- Task summary: Added a SHAP summary plot for the best model to make the feature importance explanation more convincing. The waterfall plots for individual predictions are a good addition to the model card.
+- Deliverable: SHAP summary and waterfall plots added to deliverable.
