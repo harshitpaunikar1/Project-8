@@ -1,2 +1,2 @@
-# Project-8
+# Housing Price Prediction
 Housing price prediction model
