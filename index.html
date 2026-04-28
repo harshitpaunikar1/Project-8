@@ -182,7 +182,7 @@
     <span>LINEAR REGRESSION MODEL</span>
   </div>
   <h1>What a Housing Regression Can and Cannot Tell You About Price</h1>
-  <p class="subhead">A model is not a valuation — it is a hypothesis about which property attributes correlate with price in historical data. The useful question is when that hypothesis holds and when market judgment takes over.</p>
+  <p class="subhead">A model is not a valuation - it is a hypothesis about which property attributes correlate with price in historical data. The useful question is when that hypothesis holds and when market judgment takes over.</p>
   <hr class="header-rule">
 </div>
 
@@ -191,18 +191,18 @@
 
   <h2>§ Valuation Context</h2>
 
-  <p>The Delhi housing dataset used in this project captures transaction prices alongside a compact set of observable property attributes: built area in square feet, number of bedrooms, bathrooms, stories, and parking spaces, plus binary indicators for main road access, guest room presence, basement, hot water heating, air conditioning, and furnishing status. For a city as heterogeneous as Delhi — spanning DDA flats in outer districts, builder floors in South Delhi, independent houses in Dwarka, and new-construction high-rises in Gurgaon fringe — this attribute set captures perhaps 60–70 percent of what determines a property's price. The rest is locality, builder reputation, floor level, facing direction, maintenance status, and the specific negotiating circumstances of the transaction.</p>
+  <p>The Delhi housing dataset used in this project captures transaction prices alongside a compact set of observable property attributes: built area in square feet, number of bedrooms, bathrooms, stories, and parking spaces, plus binary indicators for main road access, guest room presence, basement, hot water heating, air conditioning, and furnishing status. For a city as heterogeneous as Delhi - spanning DDA flats in outer districts, builder floors in South Delhi, independent houses in Dwarka, and new-construction high-rises in Gurgaon fringe - this attribute set captures perhaps 60–70 percent of what determines a property's price. The rest is locality, builder reputation, floor level, facing direction, maintenance status, and the specific negotiating circumstances of the transaction.</p>
 
   <p>The regression model treats the observable attributes as the complete world. That is the right starting assumption for understanding directional relationships; it is an incomplete assumption for building a pricing tool that anyone would use in an actual transaction.</p>
 
   <div class="tech-note">
     <div class="tech-note-label">Dataset Scope</div>
-    <p>546 Delhi-region properties. Features: 6 numeric (area, beds, baths, stories, parking, price) + 7 binary dummies. <strong>No locality identifier</strong> — the single largest omission, since location in Delhi can shift price by 2–3× for otherwise identical properties.</p>
+    <p>546 Delhi-region properties. Features: 6 numeric (area, beds, baths, stories, parking, price) + 7 binary dummies. <strong>No locality identifier</strong> - the single largest omission, since location in Delhi can shift price by 2–3× for otherwise identical properties.</p>
   </div>
 
   <h2>§ Feature Elasticity</h2>
 
-  <p>Before interpreting coefficients, it matters that the model was built with OLS linear regression on raw price — which means the coefficients represent the estimated additive change in price (in rupees) associated with a one-unit increase in each feature, holding other features constant. That "holding other features constant" assumption fails in practice for correlated features, which makes individual coefficient interpretation unreliable when multicollinearity is present.</p>
+  <p>Before interpreting coefficients, it matters that the model was built with OLS linear regression on raw price - which means the coefficients represent the estimated additive change in price (in rupees) associated with a one-unit increase in each feature, holding other features constant. That "holding other features constant" assumption fails in practice for correlated features, which makes individual coefficient interpretation unreliable when multicollinearity is present.</p>
 
   <p>For the numerical features in this dataset, the most important correlations to check are: <strong>area with bedrooms</strong> (larger properties tend to have more bedrooms, so a model with both features will split the area-driven price signal between the two coefficients), and <strong>bedrooms with bathrooms</strong> (similar compositional correlation). The coefficient on bedrooms in a model that also includes area will be smaller than in a model that only includes bedrooms, because area is absorbing most of the variance that bedrooms would otherwise explain.</p>
 
@@ -211,11 +211,11 @@
     <div class="diagram-scroll">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" width="820" style="max-width:100%;display:block;">
         <rect width="820" height="440" fill="#fff"/>
-        <text x="30" y="22" font-family="Inconsolata,monospace" font-size="9" fill="#888" letter-spacing="1.5">VALUATION BOARD — FEATURE ELASTICITY (LEFT) · RESIDUAL FIELD (RIGHT)</text>
+        <text x="30" y="22" font-family="Inconsolata,monospace" font-size="9" fill="#888" letter-spacing="1.5">VALUATION BOARD - FEATURE ELASTICITY (LEFT) · RESIDUAL FIELD (RIGHT)</text>
 
         <!-- ═══ LEFT PANEL: Feature Elasticity Strip ═══ -->
         <line x1="30" y1="35" x2="390" y2="35" stroke="#111" stroke-width="1.5"/>
-        <text x="30" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">FEATURE ELASTICITY — DIRECTION &amp; INTENSITY</text>
+        <text x="30" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">FEATURE ELASTICITY - DIRECTION &amp; INTENSITY</text>
 
         <!-- X midpoint (neutral) -->
         <line x1="210" y1="60" x2="210" y2="380" stroke="#ddd" stroke-width="1" stroke-dasharray="3,3"/>
@@ -224,7 +224,7 @@
         <text x="310" y="400" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="middle">Increases price →</text>
 
         <!-- Feature rows -->
-        <!-- Area (sqft) — strongest positive -->
+        <!-- Area (sqft) - strongest positive -->
         <text x="200" y="80" font-family="Inconsolata,monospace" font-size="8.5" fill="#111" text-anchor="end">area (sqft)</text>
         <rect x="210" y="68" width="130" height="14" fill="#111"/>
         <text x="344" y="80" font-family="Inconsolata,monospace" font-size="8" fill="#555">very strong +</text>
@@ -264,7 +264,7 @@
         <rect x="210" y="236" width="30" height="14" fill="#aaa"/>
         <text x="244" y="248" font-family="Inconsolata,monospace" font-size="8" fill="#bbb">weak +</text>
 
-        <!-- Bedrooms — note: after controlling for area, can go negative -->
+        <!-- Bedrooms - note: after controlling for area, can go negative -->
         <text x="200" y="272" font-family="Inconsolata,monospace" font-size="8.5" fill="#555" text-anchor="end">bedrooms*</text>
         <rect x="160" y="260" width="50" height="14" fill="#888"/>
         <text x="155" y="272" font-family="Inconsolata,monospace" font-size="8" fill="#888" text-anchor="end">ambiguous*</text>
@@ -285,11 +285,11 @@
         <text x="236" y="344" font-family="Inconsolata,monospace" font-size="8" fill="#bbb">negligible</text>
 
         <!-- footnote -->
-        <text x="30" y="415" font-family="Inconsolata,monospace" font-size="8.5" fill="#aaa">* Bedrooms coefficient is unstable when area is also in model — collinear. Positive alone; near-zero or slightly negative when area is controlled.</text>
+        <text x="30" y="415" font-family="Inconsolata,monospace" font-size="8.5" fill="#aaa">* Bedrooms coefficient is unstable when area is also in model - collinear. Positive alone; near-zero or slightly negative when area is controlled.</text>
 
         <!-- ═══ RIGHT PANEL: Residual Field ═══ -->
         <line x1="430" y1="35" x2="800" y2="35" stroke="#111" stroke-width="1.5"/>
-        <text x="430" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">RESIDUAL FIELD — WHERE PREDICTIONS DRIFT</text>
+        <text x="430" y="50" font-family="Work Sans,sans-serif" font-size="9.5" font-weight="600" fill="#111">RESIDUAL FIELD - WHERE PREDICTIONS DRIFT</text>
 
         <!-- Axes -->
         <line x1="450" y1="370" x2="790" y2="370" stroke="#111" stroke-width="1.5"/>
@@ -320,7 +320,7 @@
         <circle cx="601" cy="220" r="4" fill="#555"/><circle cx="612" cy="205" r="4" fill="#555"/>
         <circle cx="623" cy="228" r="4" fill="#555"/><circle cx="635" cy="215" r="4" fill="#555"/>
 
-        <!-- High end 85L+: systematic positive residuals — model underestimates -->
+        <!-- High end 85L+: systematic positive residuals - model underestimates -->
         <circle cx="652" cy="175" r="5" fill="#111"/><circle cx="668" cy="162" r="5" fill="#111"/>
         <circle cx="684" cy="185" r="5" fill="#111"/><circle cx="700" cy="155" r="5" fill="#111"/>
         <circle cx="716" cy="168" r="5" fill="#111"/><circle cx="730" cy="145" r="5" fill="#111"/>
@@ -344,19 +344,19 @@
         <text x="715" y="405" font-family="Inconsolata,monospace" font-size="8.5" fill="#888" text-anchor="middle">Premium+ (&gt;90L)</text>
       </svg>
     </div>
-    <figcaption><em>Fig. 1 — Valuation board. Left: feature elasticity strip showing direction and relative intensity of each predictor's association with price. Bar length encodes relative coefficient magnitude after standardization; direction encodes sign. Right: residual field — each point is a property, vertical position is prediction error. Economy properties cluster tightly around zero (model performs well); premium properties show a systematic positive residual (model underestimates) because locality-driven price premiums are not captured in the feature set.</em></figcaption>
+    <figcaption><em>Fig. 1 - Valuation board. Left: feature elasticity strip showing direction and relative intensity of each predictor's association with price. Bar length encodes relative coefficient magnitude after standardization; direction encodes sign. Right: residual field - each point is a property, vertical position is prediction error. Economy properties cluster tightly around zero (model performs well); premium properties show a systematic positive residual (model underestimates) because locality-driven price premiums are not captured in the feature set.</em></figcaption>
   </figure>
 
   <h2>§ Coefficient Interpretation</h2>
 
   <div class="tech-note">
     <div class="tech-note-label">Collinearity Check</div>
-    <p>VIF for <code>area</code>: ~2.8. VIF for <code>bedrooms</code>: ~3.1. VIF above 5 requires attention; above 10 is severe. This dataset is <strong>moderate</strong> — coefficients are interpretable but not precise. Prefer directional reading over exact magnitudes.</p>
+    <p>VIF for <code>area</code>: ~2.8. VIF for <code>bedrooms</code>: ~3.1. VIF above 5 requires attention; above 10 is severe. This dataset is <strong>moderate</strong> - coefficients are interpretable but not precise. Prefer directional reading over exact magnitudes.</p>
   </div>
 
   <p>The OLS coefficients from this model should be read as directional signals with approximate magnitudes, not as precise pricing equations. Here is what each major variable tells a practitioner.</p>
 
-  <p><strong>Area is the dominant driver</strong>, which is unsurprising and reinforced by the data. In the Delhi market, built area per square foot has long been the primary negotiating unit for residential transactions, particularly for builder floors and DDA-type inventory. A coefficient that implies each additional square foot adds a fixed number of rupees to price is a simplification — in reality, the per-square-foot premium rises in high-demand localities and falls in peripheral ones — but it captures the central tendency correctly.</p>
+  <p><strong>Area is the dominant driver</strong>, which is unsurprising and reinforced by the data. In the Delhi market, built area per square foot has long been the primary negotiating unit for residential transactions, particularly for builder floors and DDA-type inventory. A coefficient that implies each additional square foot adds a fixed number of rupees to price is a simplification - in reality, the per-square-foot premium rises in high-demand localities and falls in peripheral ones - but it captures the central tendency correctly.</p>
 
   <p><strong>Bathrooms carry more independent signal than bedrooms</strong> once area is controlled for. This reflects something real about the market: the number of bathrooms is a reliable proxy for the quality level of the fit-out, which correlates with builder grade and finish quality in ways that bedroom count does not. An extra bathroom in a mid-segment property often means the builder's premium tier; an extra bedroom may simply mean the same square footage was partitioned differently.</p>
 
@@ -367,7 +367,7 @@
   <h2>§ Where the Model Breaks Down</h2>
 
   <h3>Locality Effects Are Missing</h3>
-  <p>The single largest omission in this feature set is locality. In Delhi, the same 1,500 square foot, 3-bedroom, 2-bathroom property can trade at ₹45 lakhs in Dwarka Sector 22, ₹75 lakhs in Janakpuri, and ₹1.8 crore in South Delhi's Safdarjung Enclave. No amount of regression engineering on the observable physical features will recover that three-fold difference. A model without locality or at minimum a postal code or district identifier cannot be used as a valuation tool for Delhi properties — it can only describe the average relationship between features and price across the full geographic distribution.</p>
+  <p>The single largest omission in this feature set is locality. In Delhi, the same 1,500 square foot, 3-bedroom, 2-bathroom property can trade at ₹45 lakhs in Dwarka Sector 22, ₹75 lakhs in Janakpuri, and ₹1.8 crore in South Delhi's Safdarjung Enclave. No amount of regression engineering on the observable physical features will recover that three-fold difference. A model without locality or at minimum a postal code or district identifier cannot be used as a valuation tool for Delhi properties - it can only describe the average relationship between features and price across the full geographic distribution.</p>
 
   <p>The residual plot makes this visible: the systematic underestimation at the high end is almost entirely explained by premium-locality properties that command a per-square-foot price multiple that the model has no way to see. These are not outliers in a statistical sense; they are correct prices for their locality. The model simply cannot explain them.</p>
 
@@ -387,15 +387,15 @@ vif_df = pd.DataFrame({
             for i in range(len(features))]
 })
 # VIF > 5 → consider dropping or combining the correlated variable
-# area + bedrooms are correlated (larger = more beds) — keep area, drop or flag bedrooms
+# area + bedrooms are correlated (larger = more beds) - keep area, drop or flag bedrooms
 print(vif_df.sort_values('VIF', ascending=False))</code></pre>
 
   <p>A practical response to the area-bedrooms collinearity: run the model with area and without bedrooms, and with bedrooms and without area, and compare the R² change. If the drop in R² when bedrooms is removed is small (say, less than 0.03), bedrooms is adding noise to the area coefficient without contributing meaningfully to explanatory power. The parsimonious model is the more reliable one for coefficient interpretation.</p>
 
   <h3>Residual Heteroscedasticity</h3>
-  <p>The residual field in Fig. 1 shows a pattern that is a diagnostic red flag: the variance of residuals increases with predicted price. Low-priced properties are predicted within a narrow band; high-priced properties are scattered widely. This is heteroscedasticity — a violation of the OLS assumption of constant residual variance. Its practical consequence is that the model's confidence intervals are unreliable: they are too narrow for high-price properties (giving false precision where prediction is actually poor) and potentially too wide for low-price properties (overstating uncertainty where the model is actually reliable).</p>
+  <p>The residual field in Fig. 1 shows a pattern that is a diagnostic red flag: the variance of residuals increases with predicted price. Low-priced properties are predicted within a narrow band; high-priced properties are scattered widely. This is heteroscedasticity - a violation of the OLS assumption of constant residual variance. Its practical consequence is that the model's confidence intervals are unreliable: they are too narrow for high-price properties (giving false precision where prediction is actually poor) and potentially too wide for low-price properties (overstating uncertainty where the model is actually reliable).</p>
 
-  <p>A log-transform on the price target typically reduces heteroscedasticity by putting predictions on a percentage scale rather than an absolute rupee scale. A model predicting log(price) is effectively modeling percentage deviations, which are more stable across the price range than absolute rupee deviations. The tradeoff is that the coefficients are now in log-rupee units, which requires back-transformation to interpret as price changes — a minor inconvenience for a more honest model.</p>
+  <p>A log-transform on the price target typically reduces heteroscedasticity by putting predictions on a percentage scale rather than an absolute rupee scale. A model predicting log(price) is effectively modeling percentage deviations, which are more stable across the price range than absolute rupee deviations. The tradeoff is that the coefficients are now in log-rupee units, which requires back-transformation to interpret as price changes - a minor inconvenience for a more honest model.</p>
 
   <h2>§ When to Trust the Model and When to Override</h2>
 
@@ -405,16 +405,16 @@ print(vif_df.sort_values('VIF', ascending=False))</code></pre>
 
   <p><strong>Override the model</strong> when: locality is a dominant factor and you know the locality-specific premium; the property has characteristics outside the training data (e.g., a heritage property, an industrial conversion, a penthouse with an unusual floor area ratio); the market is in a transitional moment (interest rate shift, new infrastructure announcement) that the historical training data does not capture; or the residual for comparable properties in recent transactions is systematically large and directional.</p>
 
-  <p>A real estate agent with deep locality knowledge will consistently beat this model for individual property valuations, because they have access to the signal that matters most — where the property is — and the model does not. The model's comparative advantage is processing many properties simultaneously with consistent criteria, flagging outliers for manual review, and providing a quantitative framework for feature-value negotiation ("the AC unit is worth approximately ₹X based on comparables") that is harder to do reliably by eye.</p>
+  <p>A real estate agent with deep locality knowledge will consistently beat this model for individual property valuations, because they have access to the signal that matters most - where the property is - and the model does not. The model's comparative advantage is processing many properties simultaneously with consistent criteria, flagging outliers for manual review, and providing a quantitative framework for feature-value negotiation ("the AC unit is worth approximately ₹X based on comparables") that is harder to do reliably by eye.</p>
 
   <h2>§ What the Coefficients Would Say to a Seller</h2>
 
-  <p>If a Delhi property seller asked what controllable factors most affect their listing price, the model's honest answer is: <strong>nothing you can change easily increases price as much as the location you're already in</strong>. Among genuinely controllable attributes, air conditioning installation has a disproportionate coefficient — partly because it signals construction quality and partly because it is a real amenity in a city with Delhi's summer temperatures. Furnishing upgrades show a smaller coefficient than many sellers expect, and parking availability matters modestly in areas where street parking is scarce.</p>
+  <p>If a Delhi property seller asked what controllable factors most affect their listing price, the model's honest answer is: <strong>nothing you can change easily increases price as much as the location you're already in</strong>. Among genuinely controllable attributes, air conditioning installation has a disproportionate coefficient - partly because it signals construction quality and partly because it is a real amenity in a city with Delhi's summer temperatures. Furnishing upgrades show a smaller coefficient than many sellers expect, and parking availability matters modestly in areas where street parking is scarce.</p>
 
   <p>Bathroom additions have a high coefficient but at a cost that typically exceeds the implied price benefit for most properties in the mid-market range. This is a general principle of renovation ROI: the features that command the highest model coefficients (area, bathrooms) are also the most expensive to increase, while the features that are cheapest to change (furnishing, minor upgrades) have the smallest coefficients. The model correctly reflects the market; the market correctly reflects the cost structure of property improvement.</p>
 
   <div class="end-rule">
-    DATA: Delhi housing dataset — 546 transactions. FEATURES: 6 numeric (area, bedrooms, bathrooms, stories, parking, price) + 7 binary dummies (mainroad, guestroom, basement, hotwaterheating, airconditioning, furnishingstatus). MODEL: OLS linear regression; RFE for feature selection; VIF for multicollinearity assessment. STACK: statsmodels, scikit-learn, Pandas, Seaborn. This analysis is a portfolio exercise and does not represent commercial appraisal advice for any specific property.
+    DATA: Delhi housing dataset - 546 transactions. FEATURES: 6 numeric (area, bedrooms, bathrooms, stories, parking, price) + 7 binary dummies (mainroad, guestroom, basement, hotwaterheating, airconditioning, furnishingstatus). MODEL: OLS linear regression; RFE for feature selection; VIF for multicollinearity assessment. STACK: statsmodels, scikit-learn, Pandas, Seaborn. This analysis is a portfolio exercise and does not represent commercial appraisal advice for any specific property.
   </div>
 
 </div>
